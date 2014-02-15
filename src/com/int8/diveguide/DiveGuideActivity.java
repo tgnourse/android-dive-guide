@@ -58,6 +58,11 @@ public class DiveGuideActivity extends Activity {
 	PowerManager.WakeLock screenLock;
 	
 	/**
+	 * The persistent location store.
+	 */
+	LocationsRepository locationsRepo;
+	
+	/**
 	 * Set up the UI and grab the LocationManager.
 	 */
     @Override
@@ -82,6 +87,15 @@ public class DiveGuideActivity extends Activity {
         // Set up the sensor listeners.
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         sensorListener = new MySensorListener();
+        
+        // Create the persistent location store.
+        // TODO(tgnourse): This may write to disk, it should be done off the UI thread.
+        locationsRepo = new LocationsRepository(this);
+        
+        List<PersistentLocation> locations = locationsRepo.getAll();
+        for (PersistentLocation location: locations) {
+        	Util.log("\t" + new PersistentTargetLocation(location).toString());
+        }
     }
     
     private void setTargetLocations(CharSequence site) {
@@ -94,7 +108,6 @@ public class DiveGuideActivity extends Activity {
     		targetLocations.add(new TargetLocation("N Middle Reef", Color.rgb(255, 255, 0), 36.522417, -121.939550));
     		targetLocations.add(new TargetLocation("Whale Bones", Color.rgb(0, 255, 255), 36.523200, -121.939333));
     		targetLocations.add(new TargetLocation("Granite Pt Wall?", Color.rgb(0, 255, 0), 36.522417, -121.939550));
-    		
     	} else if (site.equals("Lover's Point")) {
     		// Lover's Point
     		targetLocations.add(new TargetLocation("Lover's Cove", Color.rgb(255, 0, 255), 36.625964, -121.915853));
@@ -385,16 +398,21 @@ public class DiveGuideActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
     	switch (item.getItemId()) {
     		case R.id.edit_dive_sites:
-    			// showDialog(DIALOG_EDIT_DIVE_SITES);
+    			Util.log("Options Menu: Edit Dive Sites");
+    			// TODO(tgnourse): Don't use the deprecated showDialog.
+    			showDialog(DIALOG_EDIT_DIVE_SITES);
     			break;
     		case R.id.warnings:
+    			Util.log("Options Menu: Warnings");
     			// showDialog(DIALOG_WARNINGS);
     			break;
     		case R.id.set_dive_site:
+    			Util.log("Options Menu: Set Dive Site");
     			// TODO(tgnourse): Don't use the deprecated showDialog.
     			showDialog(DIALOG_SITE_SELECTION);
     			break;
     		case R.id.next_target:
+    			Util.log("Options Menu: Show Next Target Location");
     			showNextTargetLocation();
     			break;
     	}
@@ -403,12 +421,13 @@ public class DiveGuideActivity extends Activity {
     }
     
     static final int DIALOG_SITE_SELECTION = 0;
+    static final int DIALOG_EDIT_DIVE_SITES = 1;
 
     protected Dialog onCreateDialog(int id) {
         Dialog dialog;
         switch(id) {
         case DIALOG_SITE_SELECTION:
-            // do the work to define the pause Dialog
+            // Do the work to define the pause Dialog.
             final CharSequence[] items = {"Breakwater", "Lover's Point", "Monastery North", "Monastery South",
             		"Pt Lobos", "Mission Bay Jetty"};
 
@@ -417,16 +436,22 @@ public class DiveGuideActivity extends Activity {
             builder.setItems(items, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int item) {
                     Toast.makeText(getApplicationContext(),
-                    		       "Dive site set to " + items[item], Toast.LENGTH_SHORT).show();
+                    		"Dive site set to " + items[item], Toast.LENGTH_SHORT).show();
                     setTargetLocations(items[item]);
                     showNextTargetLocation();
                 }
             });
             dialog = builder.create();
             break;
+        case DIALOG_EDIT_DIVE_SITES:
+            AlertDialog.Builder builder2 = new AlertDialog.Builder(this);
+            builder2.setTitle("Locations");
+            dialog = builder2.create();
+            break;
         default:
             dialog = null;
         }
         return dialog;
+       
     }
 }
