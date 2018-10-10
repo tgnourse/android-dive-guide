@@ -130,7 +130,10 @@ public class DiveGuideActivity extends Activity {
 	        // Old location for the Metridium Fields from the interwebs
 	        // targetLocations.add(new TargetLocation("Metridium Fields", Color.rgb(0, 255, 0), 36.612400, -121.892817));
 	        targetLocations.add(new TargetLocation("Metridium Fields", Color.rgb(0, 255, 0), 36.612703, -121.892886));
-    	} else if (site.equals("Mission Bay Jetty"))
+    	} else if (site.equals("Del Monte Beach")) {
+			targetLocations.add(new TargetLocation("Sailboat", Color.rgb(0, 255, 255), 36.603217, -121.885283));
+    		targetLocations.add(new TargetLocation("Amtrack", Color.rgb(255, 0, 255), 36.603033, -121.885600));
+		} else if (site.equals("Mission Bay Jetty"))
     		targetLocations.add(new TargetLocation("East Tree & Bench", Color.rgb(255, 0, 255), 32.76064, -117.24559));
     	if (currentLocation.hasLocation()) {
     		showNextTargetLocation();
@@ -428,7 +431,7 @@ public class DiveGuideActivity extends Activity {
         switch(id) {
         case DIALOG_SITE_SELECTION:
             // Do the work to define the pause Dialog.
-            final CharSequence[] items = {"Breakwater", "Lover's Point", "Monastery North", "Monastery South",
+            final CharSequence[] items = {"Del Monte Beach", "Breakwater", "Lover's Point", "Monastery North", "Monastery South",
             		"Pt Lobos", "Mission Bay Jetty"};
 
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
