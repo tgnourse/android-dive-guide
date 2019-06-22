@@ -1,8 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 19
-    buildToolsVersion "27.0.2"
+    compileSdkVersion 26
 
     defaultConfig {
         applicationId "com.int8.diveguide"
@@ -19,7 +18,7 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:support-v4:19.1.0'
-    compile files('libs/ormlite-android-4.48.jar')
-    compile files('libs/ormlite-core-4.48.jar')
+    api 'com.android.support:support-v4:19.1.0'
+    api files('libs/ormlite-android-4.48.jar')
+    api files('libs/ormlite-core-4.48.jar')
 }

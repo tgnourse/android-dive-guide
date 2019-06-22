@@ -107,7 +107,9 @@ public class DiveGuideActivity extends Activity {
     		targetLocations.add(new TargetLocation("Cannery Pt", Color.rgb(255, 0, 0), 36.521044,-121.939933));
     		targetLocations.add(new TargetLocation("N Middle Reef", Color.rgb(255, 255, 0), 36.522417, -121.939550));
     		targetLocations.add(new TargetLocation("Whale Bones", Color.rgb(0, 255, 255), 36.523200, -121.939333));
-    		targetLocations.add(new TargetLocation("Granite Pt Wall?", Color.rgb(0, 255, 0), 36.522417, -121.939550));
+    		targetLocations.add(new TargetLocation("Descent Near Left", Color.rgb(0, 255, 0), 36.52135, -121.93935));
+			targetLocations.add(new TargetLocation("Descent Far Right", Color.rgb(0, 0, 255), 36.52135, -121.93935));
+
     	} else if (site.equals("Lover's Point")) {
     		// Lover's Point
     		targetLocations.add(new TargetLocation("Lover's Cove", Color.rgb(255, 0, 255), 36.625964, -121.915853));
